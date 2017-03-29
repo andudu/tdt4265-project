@@ -12,11 +12,16 @@ doc houghlines; % Documentation; extract line segments based on Hough transform
 %lh.Color = [0,0,0,0.5] % Set line color and transparency
 
 %% Lane detection
-image = imread('test_images/solidYellowLeft.jpg');
+image = imread('test_images/solidYellowCurve.jpg');
 grayImage = rgb2gray(image);
 hsvImage = rgb2hsv(image);
+indexedImage = rgb2ind(image,65536);
 
 % Insert color masking here
+yellowRange = {[20 100 100] [30 255 255]};
+whiteRange = {[0 0 235] [255 255 255]};
+
+%yellowMask = roicolor(image,0.4);
 
 % Blur the image
 kernelSize = 5;
@@ -33,9 +38,9 @@ houghFillGap    = 70;
 houghMinLength  = 100;
 
 [houghImage,houghTheta,houghRho] = hough(edgesImage);
-P  = houghpeaks(houghImage,5,'threshold',ceil(0.3*max(houghImage(:))));
+houghPeaks = houghpeaks(houghImage,5,'threshold',ceil(0.3*max(houghImage(:))));
 
-lines = houghlines(edgesImage,houghTheta,houghRho,P,'FillGap',houghFillGap,'MinLength',houghMinLength);
+lines = houghlines(edgesImage,houghTheta,houghRho,houghPeaks,'FillGap',houghFillGap,'MinLength',houghMinLength);
 figure, imshow(image), hold on
 for k = 1:length(lines)
     xy = [lines(k).point1; lines(k).point2];
@@ -43,3 +48,10 @@ for k = 1:length(lines)
 end
 
 % Insert line extrapolation here
+
+
+%% Colormap
+N = 127;
+y = 1:127;
+Y = repmat(y,50,1);
+imagesc(Y); colormap;
