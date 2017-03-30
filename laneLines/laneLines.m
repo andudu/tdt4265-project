@@ -1,45 +1,78 @@
 
 %% Useful functions
-I = imread('test_images/solidYellowLeft.jpg');
-I = rgb2gray(I); % Convert RGB image to grayscale
-I = rgb2hsv(I); % Convert RGB colormap to HSV colormap
-I = edge(I,'canny'); % Canny edge detection (for greyscale images only)
-I = imgaussfilt(I,sigma,'FilterSize',oddNumber); % Gaussian blur 
-doc line; % Documentation for the line function
-imshow(I) % Show the image
+%I = imread('test_images/solidYellowCurve.jpg');
+%I = rgb2gray(I); % Convert RGB image to grayscale
+%I = rgb2hsv(I); % Convert RGB colormap to HSV colormap
+%I = edge(I,'canny'); % Canny edge detection (for greyscale images only)
+%I = imgaussfilt(I,sigma,'FilterSize',oddNumber); % Gaussian blur 
+%doc line; % Documentation for the line function
+%imshow(I) % Show the image
 % <https://se.mathworks.com/help/images/roi-based-processing.html>  % ROI-based processing - for masking out the interesting parts of an image
-doc houghlines; % Documentation; extract line segments based on Hough transform
+%doc houghlines; % Documentation; extract line segments based on Hough transform
 %lh.Color = [0,0,0,0.5] % Set line color and transparency
 
 %% Lane detection
 image = imread('test_images/solidYellowCurve.jpg');
+%figure, imshow(image);
 grayImage = rgb2gray(image);
 hsvImage = rgb2hsv(image);
 indexedImage = rgb2ind(image,65536);
 
-% Insert color masking here
-yellowRange = {[20 100 100] [30 255 255]};
-whiteRange = {[0 0 235] [255 255 255]};
+%figure, imshow(grayImage);
 
-%yellowMask = roicolor(image,0.4);
+% Color masking (ROI)
+yellowRange = {[200 170 50] [255 210 150]};
+whiteRange = {[200 200 200] [255 255 255]};
 
-% Blur the image
+yellowMaskR = roicolor(image(:,:,1),yellowRange{1}(1),yellowRange{2}(1));
+yellowMaskG = roicolor(image(:,:,2),yellowRange{1}(2),yellowRange{2}(2));
+yellowMaskB = roicolor(image(:,:,3),yellowRange{1}(3),yellowRange{2}(3));
+yellowMask = bitand(yellowMaskR,yellowMaskG);
+yellowMask = bitand(yellowMask,yellowMaskB);
+
+%figure, imshow(yellowMask); title('yellowMask');
+
+whiteMaskR = roicolor(image(:,:,1),whiteRange{1}(1),whiteRange{2}(1));
+whiteMaskG = roicolor(image(:,:,2),whiteRange{1}(2),whiteRange{2}(2));
+whiteMaskB = roicolor(image(:,:,3),whiteRange{1}(3),whiteRange{2}(3));
+whiteMask = bitand(whiteMaskR,whiteMaskG);
+whiteMask = bitand(whiteMask,whiteMaskB);
+
+%figure, imshow(whiteMask); title('whiteMask');
+
+colorMask = bitor(yellowMask,whiteMask);
+colorMaskInt = uint8(colorMask);
+
+maskedImage = grayImage .* colorMaskInt;
+%figure, imshow(maskedImage); title('colorMask');
+
+%% Blur the image
 kernelSize = 5;
-blurredImage = imgaussfilt(grayImage,5);
+blurredImage = imgaussfilt(maskedImage,5);
+%figure, imshow(blurredImage)
 
-% Canny edge detection
+%% Canny edge detection
 cannyThreshold = [0.24, 0.59];
+%blurredImage = imgaussfilt(grayImage,5);
 edgesImage = edge(blurredImage,'Canny',cannyThreshold);
+figure, imshow(edgesImage)
 
-% Insert image masking (ROI) based on canny edges here
+%% Insert image masking (ROI) based on canny edges here
 
-% Extract hough lines
+%% Extract Hough lines
 houghFillGap    = 70;
 houghMinLength  = 100;
 
 [houghImage,houghTheta,houghRho] = hough(edgesImage);
 houghPeaks = houghpeaks(houghImage,5,'threshold',ceil(0.3*max(houghImage(:))));
 
+%% Plot Hough space
+figure, imshow(log(houghImage),[],'XData',houghTheta,'YData',houghRho,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho'); axis on, axis normal, hold on;
+x = houghTheta(houghPeaks(:,2)); y = houghRho(houghPeaks(:,1));
+plot(x,y,'s','color','white');
+
+%% Project the lane lines on the original image
 lines = houghlines(edgesImage,houghTheta,houghRho,houghPeaks,'FillGap',houghFillGap,'MinLength',houghMinLength);
 figure, imshow(image), hold on
 for k = 1:length(lines)
@@ -47,11 +80,4 @@ for k = 1:length(lines)
     plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
 end
 
-% Insert line extrapolation here
-
-
-%% Colormap
-N = 127;
-y = 1:127;
-Y = repmat(y,50,1);
-imagesc(Y); colormap;
+%% Insert line extrapolation here
