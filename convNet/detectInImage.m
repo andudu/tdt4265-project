@@ -18,13 +18,15 @@ while (topBorder + 227 < height)
     while(leftBorder + 227 < width)
         window = img(topBorder:(topBorder + 226), leftBorder:(leftBorder + 226), :);
         
-        activation = activations(net, window, 'output');
+        activation = activations(net, window, 25);
         activationMap(topBorder, leftBorder, :) = activation;
         
         if (activation(2) > maxActivation)
             maxActivation = activation(2);
             maxPos = [topBorder, leftBorder];
         end
+        
+        imshow(window);
         
         leftBorder = leftBorder + stride;
     end
