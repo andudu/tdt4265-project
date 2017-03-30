@@ -12,13 +12,10 @@
 %lh.Color = [0,0,0,0.5] % Set line color and transparency
 
 %% Lane detection
-image = imread('test_images/solidYellowCurve.jpg');
+image = imread('test_images/whiteCarLaneSwitch.jpg');
 %figure, imshow(image);
 grayImage = rgb2gray(image);
-hsvImage = rgb2hsv(image);
-indexedImage = rgb2ind(image,65536);
-
-%figure, imshow(grayImage);
+hsvImage = rgb2hsv(image); % Possibly not needed
 
 % Color masking (ROI)
 yellowRange = {[200 170 50] [255 210 150]};
@@ -52,18 +49,18 @@ blurredImage = imgaussfilt(maskedImage,5);
 %figure, imshow(blurredImage)
 
 %% Canny edge detection
-cannyThreshold = [0.24, 0.59];
+%cannyThreshold = [0.24, 0.59];
+cannyThreshold = [0.1, 0.2];
 %blurredImage = imgaussfilt(grayImage,5);
 edgesImage = edge(blurredImage,'Canny',cannyThreshold);
 figure, imshow(edgesImage)
 
-%% Insert image masking (ROI) based on canny edges here
+%% Image masking (ROI) based on camera orientation
+roiImage = edgesImage .* roipoly(edgesImage,[50 365 590 935],[540 330 330 540]);
+imshow(roiImage);
 
-%% Extract Hough lines
-houghFillGap    = 70;
-houghMinLength  = 100;
-
-[houghImage,houghTheta,houghRho] = hough(edgesImage);
+%% Find Hough parameters
+[houghImage,houghTheta,houghRho] = hough(roiImage,'RhoResolution',0.10);
 houghPeaks = houghpeaks(houghImage,5,'threshold',ceil(0.3*max(houghImage(:))));
 
 %% Plot Hough space
@@ -72,7 +69,10 @@ xlabel('\theta'), ylabel('\rho'); axis on, axis normal, hold on;
 x = houghTheta(houghPeaks(:,2)); y = houghRho(houghPeaks(:,1));
 plot(x,y,'s','color','white');
 
-%% Project the lane lines on the original image
+%% Extract Hough lines and project them on the original image
+houghFillGap    = 70;
+houghMinLength  = 100;
+
 lines = houghlines(edgesImage,houghTheta,houghRho,houghPeaks,'FillGap',houghFillGap,'MinLength',houghMinLength);
 figure, imshow(image), hold on
 for k = 1:length(lines)
