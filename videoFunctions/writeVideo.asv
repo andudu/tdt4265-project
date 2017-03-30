@@ -1,0 +1,11 @@
+function writeVideo(filename, frames)
+
+v = VideoWriter(filename);
+open(v);
+
+for numFrame = 1:(length(frames) - 5) % -5 to make sure we are not trying to write some empty 
+    writeVideo(v, frames{numFrame});
+end
+
+close(v);
+end

@@ -1,0 +1,12 @@
+function frames = readVideo(filename)
+
+v = VideoReader(filename);
+frames = cell(ceil(v.Duration*v.FrameRate));
+pos = 1;
+
+while hasFrame(v)
+    frame = readFrame(v);
+    frames(pos) 
+end
+
+end
