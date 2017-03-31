@@ -1,0 +1,12 @@
+function signs = findCircleCentersAndRadii(img)
+
+[centers, radii] = imfindcircles(img,[10 30]);
+
+signs = cell(1, length(radii));
+
+for i = 1:length(radii)
+    sign = img((centers(i, 1) - radii):(centers(i, 1) + radii), (centers(i, 2) - radii):(centers(i, 2) + radii));
+    signs{i} = imresize(sign;
+end
+
+end

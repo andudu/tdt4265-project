@@ -1,6 +1,6 @@
 
 %----------read image------------
-rgb = imread('Bilder/00080.ppm');
+rgb = imread('veimed50.jpg');
 figure(1)
 imshow(rgb)
 
