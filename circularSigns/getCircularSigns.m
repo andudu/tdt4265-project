@@ -9,7 +9,7 @@ for i = 1:length(radii)
     bottom = floor(centers(i, 2) + radii(i));
     left = ceil(centers(i, 1) - radii(i));
     right = floor(centers(i, 1) + radii(i));
-    sign = img(top:bottom, left:right);
+    sign = img(top:bottom, left:right, :);
     signs{i} = imresize(sign, [227, 227]);
 end
 
