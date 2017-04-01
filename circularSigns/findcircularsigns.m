@@ -1,18 +1,18 @@
 
 %----------read image------------
-rgb = imread('Bilder/00080.ppm');
+rgb = imread('images/veimed50.jpg');
 figure(1)
 imshow(rgb)
 
 %--------find circles in image--------------
-[centers, radii] = imfindcircles(rgb,[10 30]) %denne bruker houghtransform - kan eventuelt implementere denne selv
+[centers, radii] = imfindcircles(rgb,[10 30]); %denne bruker houghtransform - kan eventuelt implementere denne selv
 %viscircles(centers, radii,'EdgeColor','b');
 for r=1:length(radii)
     fullradius(r)=radii(r)+radii(r)*0.35;
 end    
 
 i=1;
-maxcorr=zeros(7,1)
+maxcorr=zeros(7,1);
 figure(1)
 viscircles(centers,radii+radii*0.35,'Color','y','LineWidth',1.2);
 determinedSign=zeros(length(radii),1);
@@ -26,12 +26,12 @@ for circlenr=1:length(radii)
     sign_bw=rgb2gray(sign_color);
     figure(2)
     imshow(sign_bw)
-%-------for all sircles, find which sign-------
+%-------for all circles, find which sign-------
     for speed=1:13
         if speed <= 7 && speed >=1
-            filenameSign=strcat(int2str((speed+2)*10),'skilt.jpg');
+            filenameSign=strcat(int2str((speed+2)*10),'sign.jpg');
         else
-            filenameSign=strcat(int2str(speed),'skilt.jpg');
+            filenameSign=strcat(int2str(speed),'sign.jpg');
         end
         signfullsize=imread(filenameSign);
         sign_template_bw=rgb2gray(signfullsize);
@@ -47,9 +47,9 @@ for circlenr=1:length(radii)
         fprintf('A %d speed limit sign was detected \n',(index+2)*10)
     else
         fprintf('A type %d sign was detected \n',index)
-        fil=strcat(int2str(index),'skilt.jpg');
+        fil=strcat(int2str(index),'sign.jpg');
         imshow(fil)
-        maxcorr
+        maxcorr;
     end
 end
 
