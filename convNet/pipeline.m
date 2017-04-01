@@ -4,22 +4,32 @@
 % saveFolder = 'C:\Users\Krist\Desktop\preprocessed\';
 % wantedFolders = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; % Determines which classes we load.
 % loadAndPreprocessData(saveFolder, loadFolder, wantedFolders);
+% 
+% % -----LOADING THE IMDS-----
+% 
+% loadFolder = 'C:\Users\Krist\Desktop\preprocessed\';
+% imds = setUpImds(loadFolder, wantedFolders);
+% [testSet, trainingSet] = splitEachLabel(imds, 0.3, 'randomize');
+% 
+% % -----LOADING ALEXNET, MODIFYING IT TO FIT THE DATA AND TRAIN IT-----
+% 
+% net = transferLearning(trainingSet);
+% 
+% % -----TEST THE ACCURACY OF THE NET-----
+% 
+% accuracy = checkAccuracy(testSet, net);
+% 
+% % -----DETECT IN IMAGE----- (not really useful)
+% 
+% img = imread('50grense.jpg');
+% activationMap = detectInImage(img, 70, 2, net);
+% 
+% % -----DETECT IN WINDOW-----
+% 
+% class = classifyWindow(net, window);
 
-% -----LOADING THE IMDS-----
+% -----COMBINING DIFFERENT METHODS TO DETECT IN IMAGE-----
 
-loadFolder = 'C:\Users\Krist\Desktop\preprocessed\';
-imds = setUpImds(loadFolder); % Husk å gå inn og endre på categories.
-[testSet, trainingSet] = splitEachLabel(imds, 0.3, 'randomize');
-
-% -----LOADING ALEXNET, MODIFYING IT TO FIT THE DATA AND TRAIN IT-----
-
-net = transferLearning(trainingSet);
-
-% -----TEST THE ACCURACY OF THE NET-----
-
-accuracy = checkAccuracy(testSet, net);
-
-% -----DETECT IN IMAGE-----
-
-img = imread('50grense.jpg');
-activationMap = detectInImage(img, 70, 2, net);
+img = imread('veimed50.jpg');
+signs = getCircularSigns(img);
+classes = classifySigns(net, signs);

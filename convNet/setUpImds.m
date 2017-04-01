@@ -1,6 +1,16 @@
-function imds = setUpImds(loadFolder)
+function imds = setUpImds(loadFolder, wantedFolders)
 
-categories = {'00001', '00002', '00003', '00004', '00005', '00006', '00007', '00008', '00009', '00010'};
+if isempty(wantedFolders)
+    fprintf('Length of wantedFolders is 0.')
+    imds = -1;
+    return;
+end
+
+for i = 1:length(wantedFolders)
+    folderName = sprintf('%05d', wantedFolders(i));
+    categories{i} = folderName;
+end
+
 imds = imageDatastore(fullfile(loadFolder, categories), 'LabelSource', 'foldernames');
 
 end
