@@ -1,6 +1,6 @@
 
 %----------read image------------
-rgb = imread('images/veimed50.jpg');
+rgb = imread('images/road50.jpg');
 figure(1)
 imshow(rgb)
 
@@ -16,6 +16,7 @@ maxcorr=zeros(7,1);
 figure(1)
 viscircles(centers,radii+radii*0.35,'Color','y','LineWidth',1.2);
 determinedSign=zeros(length(radii),1);
+
 %--------find position of circle and crop it out---------------
 for circlenr=1:length(radii)
     xmin = centers(circlenr,1) - fullradius(circlenr);
@@ -26,6 +27,7 @@ for circlenr=1:length(radii)
     sign_bw=rgb2gray(sign_color);
     figure(2)
     imshow(sign_bw)
+    
 %-------for all circles, find which sign-------
     for speed=1:13
         if speed <= 7 && speed >=1
