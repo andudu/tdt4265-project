@@ -1,6 +1,6 @@
 % https://se.mathworks.com/help/nnet/ref/alexnet.html
-% Hadde problem med overfitting.
-
+% Note: be sure not to use too many epochs.
+% Loading AlexNet, trimming it and training it.
 function netTransfer = transferLearning(trainingData)
 
 net = alexnet;

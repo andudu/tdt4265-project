@@ -1,0 +1,2 @@
+-Detection of lane lines and circular signs must be possible to show in the same figure.
+-Function to take us from folder name to name of sign.

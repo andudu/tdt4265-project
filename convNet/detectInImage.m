@@ -1,3 +1,4 @@
+% An implementation of sliding window using the CNN.
 function activationMap = detectInImage(img, stride, numClasses, net)
 
 [height, width, channels] = size(img);

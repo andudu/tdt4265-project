@@ -31,5 +31,6 @@
 % -----COMBINING DIFFERENT METHODS TO DETECT IN IMAGE-----
 
 img = imread('veimed50.jpg');
-signs = getCircularSigns(img);
+[signs, centers, radii] = getCircularSigns(img);
 classes = classifySigns(net, signs);
+describingImg = getCircularResult(img, classes, centers, radii);

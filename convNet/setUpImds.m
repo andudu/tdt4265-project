@@ -1,3 +1,4 @@
+% Creating an image datastore that can be used to train the CNN.
 function imds = setUpImds(loadFolder, wantedFolders)
 
 if isempty(wantedFolders)

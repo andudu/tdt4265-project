@@ -1,5 +1,4 @@
 % From the dataset-website. Have not altered this.
-
 function [rImgFiles, rRois, rClasses] = readSignData(aFile)
 % Reads the traffic sign data.
 %
