@@ -9,10 +9,10 @@ function newFigure = circularSignFrames(net, frame)
     
 if signs{1} == -1 % Basically means that we have not detected any signs in the frame.
     fprintf('No sign was detected.\n');
-    newFigure = frame;
+    newFrame = frame;
 else
     classes = classifySigns(net, signs);
-    newFigure = getCircularResult(frame, classes, centers, radii);
+    newFrame = getCircularResult(frame, classes, centers, radii);
 end
 end
 

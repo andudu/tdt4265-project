@@ -1,6 +1,6 @@
 % Displays the circular signs with a text-box describing the sign and a
 % circle surrounding the sign.
-function describingImg = getCircularResult(img, classes, centers, radii)
+function describingFigure = getCircularResult(img, classes, centers, radii)
 
 if (length(classes) ~= length(radii)) % If not the same number of signs were detected as the number of circles.
     fprintf('The number of signs do not match the number of circles');
@@ -18,11 +18,13 @@ for i = 1:length(classes)
     position(i, 3) = radii(i);
 end
 
-RGB = insertObjectAnnotation(img, 'circle', position, labelStr, 'LineWidth', 3, 'Color', 'y', 'TextColor', 'black');
-imshow(RGB);
-F = getframe;
-[describingImg, map] = frame2im(F);
+describingFigure = insertObjectAnnotation(img, 'circle', position, labelStr, 'LineWidth', 3, 'Color', 'y', 'TextColor', 'black');
 
-[height, width, three] = size(img);
-describingImg = imresize(describingImg, [height, width]); % For some reason the insertObjectAnnotation changes the size slightly.
+% RGB = insertObjectAnnotation(img, 'circle', position, labelStr, 'LineWidth', 3, 'Color', 'y', 'TextColor', 'black');
+% imshow(RGB);
+% F = getframe;
+% [describingImg, map] = frame2im(F);
+% 
+% [height, width, three] = size(img);
+% describingImg = imresize(describingImg, [height, width]); % For some reason the insertObjectAnnotation changes the size slightly.
 end
