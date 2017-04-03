@@ -1,0 +1,64 @@
+% Function-version of laneLines.m
+function figureHandle = laneLineFrame(image, describingImg)
+
+grayImage = rgb2gray(image);
+hsvImage = rgb2hsv(image); % Possibly not needed
+
+% Color masking (ROI)
+yellowRange = {[200 170 50] [255 210 150]};
+whiteRange = {[200 200 200] [255 255 255]};
+
+yellowMaskR = roicolor(image(:,:,1),yellowRange{1}(1),yellowRange{2}(1));
+yellowMaskG = roicolor(image(:,:,2),yellowRange{1}(2),yellowRange{2}(2));
+yellowMaskB = roicolor(image(:,:,3),yellowRange{1}(3),yellowRange{2}(3));
+yellowMask = bitand(yellowMaskR,yellowMaskG);
+yellowMask = bitand(yellowMask,yellowMaskB);
+
+%figure, imshow(yellowMask); title('yellowMask');
+
+whiteMaskR = roicolor(image(:,:,1),whiteRange{1}(1),whiteRange{2}(1));
+whiteMaskG = roicolor(image(:,:,2),whiteRange{1}(2),whiteRange{2}(2));
+whiteMaskB = roicolor(image(:,:,3),whiteRange{1}(3),whiteRange{2}(3));
+whiteMask = bitand(whiteMaskR,whiteMaskG);
+whiteMask = bitand(whiteMask,whiteMaskB);
+
+%figure, imshow(whiteMask); title('whiteMask');
+
+colorMask = bitor(yellowMask,whiteMask);
+colorMaskInt = uint8(colorMask);
+
+maskedImage = grayImage .* colorMaskInt;
+%figure, imshow(maskedImage); title('colorMask');
+
+% Blur the image
+kernelSize = 5;
+blurredImage = imgaussfilt(maskedImage,5);
+%figure, imshow(blurredImage)
+
+% Canny edge detection
+%cannyThreshold = [0.24, 0.59];
+cannyThreshold = [0.1, 0.2];
+%blurredImage = imgaussfilt(grayImage,5);
+edgesImage = edge(blurredImage,'Canny',cannyThreshold);
+
+% Image masking (ROI) based on camera orientation
+roiImage = edgesImage .* roipoly(edgesImage,[50 365 590 935],[540 330 330 540]);
+
+% Find Hough parameters
+[houghImage,houghTheta,houghRho] = hough(roiImage,'RhoResolution',0.10);
+houghPeaks = houghpeaks(houghImage,5,'threshold',ceil(0.3*max(houghImage(:))));
+
+% Extract Hough lines and project them on the original image
+houghFillGap    = 70;
+houghMinLength  = 100;
+
+lines = houghlines(edgesImage,houghTheta,houghRho,houghPeaks,'FillGap',houghFillGap,'MinLength',houghMinLength);
+figureHandle = figure;
+imshow(describingImg);
+
+hold on
+for k = 1:length(lines)
+    xy = [lines(k).point1; lines(k).point2];
+    plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+end
+end
