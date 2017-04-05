@@ -5,6 +5,7 @@ function class = classifyWindow(net, window)
 
 if height == 227 && width == 227
     class = classify(net, window);
+    class = changeClassName(class);
 else
     class = 'Illegal window size.';
     fprintf('Illegal window size.');
