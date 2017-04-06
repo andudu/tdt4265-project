@@ -1,5 +1,5 @@
 % Only finds what it thinks is the single most correct position.
-function [sign, position] = generalisedHoughFunction(template, image)
+function position = generalisedHoughFunction(template, image)
 
 % Converting to grayscale.
 grayTemplate = rgb2gray(template);
@@ -103,8 +103,6 @@ end
 
 [y, x, bestNumScale] = findMaxArea(houghSpace); % Note that we overwrite x and y.
 
-%Plotting the image with a marker at the spot we believe the figure is at.
-markerImage = insertMarker(image, [x, y], 'size', 15);
-imshow(markerImage);
+position = [y, x]; % Note the order of y and x.
 
 end
