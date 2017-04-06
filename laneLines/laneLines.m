@@ -81,3 +81,4 @@ for k = 1:length(lines)
 end
 
 %% Insert line extrapolation here
+drawlines(image,lines)
