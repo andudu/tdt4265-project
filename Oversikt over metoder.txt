@@ -1,0 +1,5 @@
+Runde skilt: Hough for sirkel og CNN
+Trekantede skilt: Generell Hough og CNN
+Firkantede skilt: Generell Hough og CNN
+
+Har også mulighet for å bruke sliding window for å finne hva som helst.
