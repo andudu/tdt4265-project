@@ -16,13 +16,9 @@
 % net = transferLearning(trainingSet);
 % 
 % -----TEST THE ACCURACY OF THE NET-----
-
-accuracy = checkAccuracy(testSet, net);
-
-% % -----DETECT IN IMAGE----- (not really useful)
 % 
-% img = imread('50grense.jpg');
-% activationMap = detectInImage(img, 70, 2, net);
+% accuracy = checkAccuracy(testSet, net);
+% 
 % 
 % % -----DETECT IN WINDOW-----
 % 
