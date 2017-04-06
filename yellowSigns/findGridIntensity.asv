@@ -1,0 +1,8 @@
+function grid = findGridIntensity(binaryImg, stride, kernelSize)
+
+[height, width] = size(binaryImg);
+
+row = 1; % Top border
+col = 1; 
+
+while row 

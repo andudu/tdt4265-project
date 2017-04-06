@@ -12,7 +12,7 @@ position = zeros(length(classes), 3); % Storing the position and the radius of s
 
 % Looping through all the signs.
 for i = 1:length(classes)
-    labelStr{i} = ['Sign: ', char(classes{i})];
+    labelStr{i} = ['Circular sign: ', char(classes{i})];
     position(i, 1) = centers(i, 1);
     position(i, 2) = centers(i, 2);
     position(i, 3) = radii(i);

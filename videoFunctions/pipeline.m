@@ -1,4 +1,4 @@
-videoFileName = 'vei.mp4';
+videoFileName = 'hastighet.mp4';
 frames = readVideo(videoFileName); 
 
 % Gjør noe morsomt her! Får ut "Matlab-bildefil ved frames{<ønsket index>}.
@@ -19,5 +19,5 @@ for i = 1:(length(frames) - 2)
     close(figureHandle);
 end
 
-processedVideoFileName = 'labeledVei.avi';
+processedVideoFileName = 'labeledHastighet2.avi';
 writeVideo(processedVideoFileName, newFrames);
