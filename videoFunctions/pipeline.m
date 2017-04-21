@@ -1,7 +1,7 @@
 videoFileName = 'hastighet.mp4';
 frames = readVideo(videoFileName); 
 
-% Gjør noe morsomt her! Får ut "Matlab-bildefil ved frames{<ønsket index>}.
+% Gjør noe "morsomt" her! Får ut "Matlab-bildefil ved frames{<ønsket index>}.
 
 for i = 1:(length(frames) - 2)
     % Works by getting an image with marked signs and then displaying the
@@ -14,6 +14,9 @@ for i = 1:(length(frames) - 2)
 
     [height, width, three] = size(frames{i});
     describingImg = imresize(describingImg, [height, width]); % For some reason the insertObjectAnnotation changes the size slightly.
+    
+    % Mulig det er best å lage én describingImg for hver
+    % gjenkjenningsmetode og så slå sammen bildene til ett.
     
     newFrames{i} = describingImg;
     close(figureHandle);
