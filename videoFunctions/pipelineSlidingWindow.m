@@ -1,5 +1,5 @@
 videoFileName = 'Film3.mov';
-% frames = readVideo(videoFileName); % Remember to comment/uncomment!
+frames = readVideo(videoFileName); % Remember to comment/uncomment!
 
 % Gjør noe "morsomt" her! Får ut "Matlab-bildefil ved frames{<ønsket index>}.
 
