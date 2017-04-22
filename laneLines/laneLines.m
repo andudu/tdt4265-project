@@ -13,11 +13,11 @@
 
 %% Lane detection
 image = imread('test_images/whiteCarLaneSwitch.jpg');
-%figure, imshow(image);
 grayImage = rgb2gray(image);
+figure, imshow(grayImage);
 hsvImage = rgb2hsv(image); % Possibly not needed
 
-% Color masking (ROI)
+%% Color masking (ROI)
 yellowRange = {[200 170 50] [255 210 150]};
 whiteRange = {[200 200 200] [255 255 255]};
 
@@ -41,17 +41,16 @@ colorMask = bitor(yellowMask,whiteMask);
 colorMaskInt = uint8(colorMask);
 
 maskedImage = grayImage .* colorMaskInt;
-%figure, imshow(maskedImage); title('colorMask');
+figure, imshow(maskedImage);
 
 %% Blur the image
 kernelSize = 5;
 blurredImage = imgaussfilt(maskedImage,5);
-%figure, imshow(blurredImage)
+figure, imshow(blurredImage)
 
 %% Canny edge detection
 %cannyThreshold = [0.24, 0.59];
 cannyThreshold = [0.1, 0.2];
-%blurredImage = imgaussfilt(grayImage,5);
 edgesImage = edge(blurredImage,'Canny',cannyThreshold);
 figure, imshow(edgesImage)
 
@@ -80,5 +79,5 @@ for k = 1:length(lines)
     plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
 end
 
-%% Insert line extrapolation here
+%% Line extrapolation
 drawlines(image,lines)

@@ -1,11 +1,11 @@
 
-%----------read image------------
+%% Read image
 rgb = imread('images/road50.jpg');
 figure(1)
 imshow(rgb)
 
-%--------find circles in image--------------
-[centers, radii] = imfindcircles(rgb,[10 30]); %denne bruker houghtransform - kan eventuelt implementere denne selv
+%% Find circles in image
+[centers, radii] = imfindcircles(rgb,[10 30]); % Hough Transform for circles
 %viscircles(centers, radii,'EdgeColor','b');
 for r=1:length(radii)
     fullradius(r)=radii(r)+radii(r)*0.35;
@@ -17,7 +17,7 @@ figure(1)
 viscircles(centers,radii+radii*0.35,'Color','y','LineWidth',1.2);
 determinedSign=zeros(length(radii),1);
 
-%--------find position of circle and crop it out---------------
+%% Find position of circle and crop it out
 for circlenr=1:length(radii)
     xmin = centers(circlenr,1) - fullradius(circlenr);
     width = 2 * fullradius(circlenr);
@@ -28,7 +28,7 @@ for circlenr=1:length(radii)
     figure(2)
     imshow(sign_bw)
     
-%-------for all circles, find which sign-------
+%-------for all circles, identify sign-------
     for speed=1:13
         if speed <= 7 && speed >=1
             filenameSign=strcat(int2str((speed+2)*10),'sign.jpg');
