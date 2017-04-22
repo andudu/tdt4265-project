@@ -1,5 +1,10 @@
 function drawSlidingWindowResult(classes, positions, kernelSize, img)
 
+if positions == -1
+    imshow(img);
+    return;
+end
+
 plotInfo = zeros(length(classes), 4);
 
 for i = 1:length(classes)

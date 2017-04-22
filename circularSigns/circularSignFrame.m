@@ -13,10 +13,14 @@ if signs{1} == -1 % Basically means that we have not detected any signs in the f
 else
     classes = classifySigns(net, signs);
     newFigure = getCircularResult(frame, classes, centers, radii);
+    
+    if newFigure == -1 % Means that even though a sign has been detected, it was not classified.
+        newFigure = frame;
+    end
 end
 end
 
-
+% NOT SURE WHAT IS WRONG WITH THE CODE...
 % function newFrames = circularSignFrames(net, frames)
 % 
 % % Looping through all the frames.

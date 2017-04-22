@@ -1,0 +1,16 @@
+videoFileName = 'Film3.mov';
+frames = readVideo(videoFileName); 
+
+% Gjør noe "morsomt" her! Får ut "Matlab-bildefil ved frames{<ønsket index>}.
+
+for i = 1:(length(frames) - 2)
+    [classes, positions] = slidingWindow(net, frames{i}, 100, 227);
+    
+    drawSlidingWindowResult(classes, positions, kernelSize, img);
+    
+    newFrames{i} = describingImg;
+    close(figureHandle);
+end
+
+processedVideoFileName = 'Film3Labeled.avi';
+writeVideo(processedVideoFileName, newFrames);
