@@ -20,7 +20,7 @@ for i = 1:length(rows)
         activation = activations(net, window, 25);
         class = classify(net, window);
         
-        if max(activation) > 0.95
+        if max(activation) > 0.97
             classes{classPos} = changeClassName(class);
             positions = [positions; row, col];
             
@@ -29,4 +29,10 @@ for i = 1:length(rows)
         end
     end
 end
+
+if classPos == 1 % Means that no signs were detected.
+    classes = -1;
+    positions = -1;
+end
+
 end

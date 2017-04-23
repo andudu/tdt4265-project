@@ -7,18 +7,38 @@ if (length(classes) ~= length(radii)) % If not the same number of signs were det
     return;
 end
 
-labelStr = cell(1, length(classes)); % Used to store the predicted labels.
-position = zeros(length(classes), 3); % Storing the position and the radius of signs.
+% PROBLEM WITH THE CODE IS THAT UNIDENTIFIED SIGNS ARE SHOWN WITH
+% A CIRCLE AROUND.
+% labelStr = cell(1, length(classes)); % Used to store the predicted labels.
+% position = zeros(length(classes), 3); % Storing the position and the radius of signs.
+% 
+% % Looping through all the signs.
+% for i = 1:length(classes)
+%     labelStr{i} = ['Circular sign: ', char(classes{i})];
+%     position(i, 1) = centers(i, 1);
+%     position(i, 2) = centers(i, 2);
+%     position(i, 3) = radii(i);
+% end
+
+position = [];
+count = 1;
 
 % Looping through all the signs.
 for i = 1:length(classes)
-    labelStr{i} = ['Circular sign: ', char(classes{i})];
-    position(i, 1) = centers(i, 1);
-    position(i, 2) = centers(i, 2);
-    position(i, 3) = radii(i);
+    if strcmp(char(classes{i}), 'Unidentified')
+        fprintf('Unknown sign.\n');
+    else
+        labelStr{count} = ['Circular sign: ', char(classes{i})]; % Used to store the predicted labels.
+        position = [position; centers(i, 1), centers(i, 2), radii(i)];
+        count = count + 1;
+    end
 end
 
-describingFigure = insertObjectAnnotation(img, 'circle', position, labelStr, 'LineWidth', 3, 'Color', 'y', 'TextColor', 'black');
+if size(position, 1) > 0
+    describingFigure = insertObjectAnnotation(img, 'circle', position, labelStr, 'LineWidth', 3, 'Color', 'y', 'TextColor', 'black');
+else
+    describingFigure = -1;
+end
 
 % RGB = insertObjectAnnotation(img, 'circle', position, labelStr, 'LineWidth', 3, 'Color', 'y', 'TextColor', 'black');
 % imshow(RGB);

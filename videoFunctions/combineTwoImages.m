@@ -1,4 +1,4 @@
-function combinedImg = combineTwoImages(img0, img1, img2) % img0 is the original image without any marking
+function combinedImg = combineTwoImages(img0, img1, img2) % img0 is the original image without any marking.
 
 combinedImg = img0;
 allowedMargin = 5;
@@ -35,9 +35,5 @@ for row = 1:height
         end
     end
 end      
-
-% Sort of works...
-% combinedImg(img0 ~= img1) = img1(img0 ~= img1);
-% combinedImg(img0 ~= img2) = img2(img0 ~= img2);
 
 end
