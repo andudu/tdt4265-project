@@ -1,0 +1,14 @@
+function getWindows(img, kernelSize)
+
+[height, width, ~] = size(img);
+
+row = 1;
+col = 1;
+
+while (row + kernelSize) < height
+    while (col + kernelSize) < width
+        
+
+
+end
+

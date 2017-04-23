@@ -84,8 +84,8 @@ switch class
         modifiedClass = categorical({'Keep left'});
     case '00040'
         modifiedClass = categorical({'Roundabout'});
-    case '00041'
-        modifiedClass = categorical({'???'});
+    case '00041' % Have changed this to be the Non-sign class.
+        modifiedClass = categorical({'Non-sign'});
     case '00042'
         modifiedClass = categorical({'???'});        
 end

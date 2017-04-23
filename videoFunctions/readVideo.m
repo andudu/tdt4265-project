@@ -1,3 +1,5 @@
+% Returns a cell array with all the images in the video.
+
 function frames = readVideo(filename)
 
 v = VideoReader(filename);

@@ -1,3 +1,4 @@
+% Displays the image with the detected signs and labels.
 function drawSlidingWindowResult(classes, positions, kernelSize, img)
 
 if positions == -1
@@ -16,7 +17,7 @@ for i = 1:length(classes)
     plotInfo(i, 4) = kernelSize;
 end
 
-RGB = insertObjectAnnotation(img, 'rectangle', plotInfo, classStr, 'LineWidth', 2);
+RGB = insertObjectAnnotation(img, 'rectangle', plotInfo, classStr, 'LineWidth', 2, 'FontSize', 24);
 imshow(RGB);
 
 end

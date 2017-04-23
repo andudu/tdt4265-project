@@ -1,6 +1,4 @@
-% Av en eller annen grunn er den veldig fan av construction work... Kan
-% eventuelt si at hvis construction work -> false positive.
-% Ser ut som om vi kan skru opp sikkerheten ganske høyt.
+% Returns labels and positions where signs have been detected in the image.
 function [classes, positions] = slidingWindow(net, img, stride, kernelSize)
 
 [height, width, ~] = size(img);
@@ -20,10 +18,10 @@ for i = 1:length(rows)
         activation = activations(net, window, 25);
         class = classify(net, window);
         
-        if max(activation) > 0.97
+        if ~strcmp(char(changeClassName(class)), 'Non-sign') && (max(activation) > 0.9)
             classes{classPos} = changeClassName(class);
             positions = [positions; row, col];
-            
+
             img(row:(row + kernelSize - 1), col:(col + kernelSize - 1), :) = 0; % Deleting the region where a sign was detected from the image.
             classPos = classPos + 1;
         end

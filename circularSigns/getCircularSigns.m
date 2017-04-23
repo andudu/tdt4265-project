@@ -2,7 +2,7 @@
 % 227x227.
 function [signs, centers, radii] = getCircularSigns(img)
 
-[centers, radii] = imfindcircles(img, [20 50]); % Hough for circles. The last parameters controll which size we are looking for.
+[centers, radii] = imfindcircles(img, [10 30]); % Hough for circles. The last parameters controll which size we are looking for.
 
 if (isempty(radii)) % If no circles were detected.
     signs{1} = -1;

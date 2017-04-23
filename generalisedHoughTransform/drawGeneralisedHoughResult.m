@@ -1,3 +1,4 @@
+% Classifying signs at detected positions and displays the result.
 function drawGeneralisedHoughResult(position, img, net, kernelSize, signShape)
 
 [height, width] = size(img);
@@ -37,8 +38,7 @@ window = imresize(window, [kernelSize, kernelSize]); % Just to be sure.
 
 class = classify(net, window);
 activation = activations(net, window, 25);
-
-if max(activation) > 0.3
+if ~strcmp(char(changeClassName(class)), 'Non-sign') && (max(activation) > 0.9)
     classStr = sprintf('%s: %s', signShape, changeClassName(char(class(1))));
     RGB = insertObjectAnnotation(img, 'rectangle', [left, top, kernelSize, kernelSize], classStr, 'LineWidth', 2);
     imshow(RGB);

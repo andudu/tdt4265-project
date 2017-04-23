@@ -1,4 +1,7 @@
-function [signs, centers, radii] = getYellowSigns(img)
+% Intended to return windows of an image where the intensity of yellow is
+% high. Nor finished.
+
+function windows = getYellowSigns(img)
 
 grayImage = rgb2gray(img);
 [height, width] = size(grayImage);

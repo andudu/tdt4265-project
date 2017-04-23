@@ -1,3 +1,5 @@
+% Can be used to merge multiple images with different overlays. For
+% example, detected lane lines + result of sliding window.
 function combinedImg = combineTwoImages(img0, img1, img2) % img0 is the original image without any marking.
 
 combinedImg = img0;

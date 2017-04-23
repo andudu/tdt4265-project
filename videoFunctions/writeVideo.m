@@ -1,3 +1,5 @@
+% Saves a video given a cell array of images of equal size.
+
 function writeVideo(filename, frames)
 
 v = VideoWriter(filename);

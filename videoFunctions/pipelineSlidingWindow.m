@@ -1,17 +1,21 @@
-videoFileName = 'Film3.mov';
-frames = readVideo(videoFileName); % Remember to comment/uncomment!
+% Sliding window.
 
-% Gjør noe "morsomt" her! Får ut "Matlab-bildefil ved frames{<ønsket index>}.
+videoFileName = 'Film3.mov';
+frames = readVideo(videoFileName);
+
 
 for i = 1:(length(frames) - 2)
-    [classes, positions] = slidingWindow(net, frames{i}, 100, 227);
+    img = frames{i};
+    img = imresize(img, [2160, 3840]);
     
-    drawSlidingWindowResult(classes, positions, 227, frames{i});
+    [classes, positions] = slidingWindow(net, img, 100, 227);
+    
+    drawSlidingWindowResult(classes, positions, 227, img);
     
     F = getframe;
     [describingImg, map] = frame2im(F);
 
-    [height, width, three] = size(frames{i});
+    [height, width, three] = size(img);
     describingImg = imresize(describingImg, [height, width]); % For some reason the insertObjectAnnotation changes the size slightly.
     
     newFrames{i} = describingImg;

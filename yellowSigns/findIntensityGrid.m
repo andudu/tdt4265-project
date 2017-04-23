@@ -1,3 +1,5 @@
+% Finding intensity in each grid of a grayscale image.
+
 function grid = findIntensityGrid(binaryImg, kernelSize, stride)
 
 [height, width] = size(binaryImg);
