@@ -27,3 +27,5 @@ figure, imshow(tImage);
 sobelThreshold = 0.01;
 edgesImage = edge(imgaussfilt(rgb2gray(tImage),5));
 figure, imshow(edgesImage);
+
+%% Insert polyfit here
